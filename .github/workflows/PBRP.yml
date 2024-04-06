@@ -1,4 +1,4 @@
-name: A7 PBRP Recovery Build
+name: M30s PBRP Recovery Build
 
 on:
   workflow_dispatch:
