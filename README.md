@@ -42,7 +42,7 @@ All contributors
 ## How to use
 
 ```
-For example, your username is: JohnSmith
+For example, your username is: John Doe
 ```
 
 #### 0. If you want to commit code, click 'Fork' in the upper right corner of this repository
