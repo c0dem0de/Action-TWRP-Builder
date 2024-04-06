@@ -1,0 +1,34 @@
+name: Interactive Shell
+
+on: [push, pull_request]
+
+jobs:
+  interactive_shell:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Install Dependencies and Setup Locale
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tmate curl wget locales build-essential libncurses-dev curl wget bc bison flex zip unzip ccache clang llvm lld libssl-dev git
+          sudo locale-gen en_US.UTF-8
+          sudo update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+      
+      - name: Start tmate session
+        run: |
+          export LC_ALL=en_US.UTF-8
+          export LANG=en_US.UTF-8
+          export LANGUAGE=en_US.UTF-8
+          tmate -S /tmp/tmate.sock new-session -d
+          tmate -S /tmp/tmate.sock wait tmate-ready
+          TMATE_SSH=$(tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}')
+          echo "SSH: ${TMATE_SSH}"
+          echo "Use the above SSH command to connect to the tmate session."
+          while true; do 
+            echo "Keeping tmate session alive..."
+            sleep 300
+            tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}'
+          done
