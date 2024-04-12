@@ -1,6 +1,7 @@
 name: Interactive Shell
 
-on:  workflow_dispatch:
+on:
+  workflow_dispatch:
 
 jobs:
   interactive_shell:
@@ -25,7 +26,7 @@ jobs:
           sudo ln -sf ~/bin/repo /usr/bin/repo
           git config --global user.name "UserName"
           git config --global user.email "GitEmail"
-      
+
       - name: Start tmate session
         run: |
           export LC_ALL=en_US.UTF-8
