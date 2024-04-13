@@ -14,7 +14,8 @@ jobs:
       - name: Install Dependencies and Setup Locale
         run: |
           sudo apt-get update
-          sudo apt-get install -y tmate curl wget locales build-essential gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev lib32ncurses5-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libncurses5 python libncurses-dev curl wget bc bison flex zip unzip ccache clang llvm lld libssl-dev git
+          sudo apt upgrade -y
+          sudo apt-get install -y tmate curl wget neovim locales build-essential gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev lib32ncurses5-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk3.0-gtk3-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libncurses5 python libncurses-dev curl wget bc bison flex zip unzip ccache clang llvm lld libssl-dev git
           sudo locale-gen en_US.UTF-8
           sudo update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
@@ -24,14 +25,17 @@ jobs:
           curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
           chmod a+x ~/bin/repo
           sudo ln -sf ~/bin/repo /usr/bin/repo
-          git config --global user.name "UserName"
-          git config --global user.email "GitEmail"
+          curl https://github.com/timvisee/ffsend/releases/download/v0.2.76/ffsend-v0.2.76-linux-x64-static > ~/bin/ffsend
+          chmod a+x ~/bin/ffsend
+          sudo ln -s ~/bin/ffsend /usr/bin/ffsend
 
       - name: Start tmate session
         run: |
           export LC_ALL=en_US.UTF-8
           export LANG=en_US.UTF-8
           export LANGUAGE=en_US.UTF-8
+          sudo git config --global user.name "UserName"
+          sudo git config --global user.email "GitEmail"
           tmate -S /tmp/tmate.sock new-session -d
           tmate -S /tmp/tmate.sock wait tmate-ready
           TMATE_SSH=$(tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}')
